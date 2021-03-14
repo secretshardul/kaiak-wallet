@@ -9,7 +9,7 @@
     import {navigationReload, pushAccountAction, pushToast} from "../../machinery/eventListener";
     import Settings from "./Settings.svelte";
     import SendByAddress from "./Send.svelte";
-    import {afterUpdate} from "svelte";
+    import {afterUpdate, onMount} from "svelte";
     import {load} from "../../machinery/loader-store";
     import {setWalletState, updateWalletState} from "../../machinery/WalletState";
     import type {WalletState} from "../../machinery/WalletState";
@@ -21,6 +21,7 @@
     import Donate from "./Donate.svelte";
     import {SOFT_KEY_SELECT} from "../../machinery/SoftwareKeysState";
     import {rawToReadable} from "../../machinery/text-utils";
+import { getMobileNumber, setMobileNumber } from "../../machinery/secure-storage";
 
     export let walletState: WalletState
     export let action: AccountAction;
@@ -95,6 +96,14 @@
             })
         }
     })
+
+    // onMount(async () => {
+	// 	// Check if mobile saved
+    //     console.log('Checking for saved mobile number');
+    //     await setMobileNumber('+123456', '0222');
+    //     await getMobileNumber('0222');
+	// });
+
 
 </script>
 

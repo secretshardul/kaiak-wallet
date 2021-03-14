@@ -4,6 +4,7 @@ import { WalletData, walletDataToWallet } from './wallet';
 
 const APP_STORE = 'kaios_nano';
 const WALLET_KEY = 'wallet';
+const MOBILE_NUMBER_KEY = 'mobile_number';
 
 function walletToWalletData(wallet: NanoWallet): WalletData {
   return {
@@ -19,9 +20,32 @@ export async function setWallet(
     const store: Store = new Store(APP_STORE, wallet.encryptionSecret);
     await store.init();
     await store.set(WALLET_KEY, walletToWalletData(wallet));
+    console.log('Read wallet data', wallet);
     return wallet;
   } catch (e) {
     console.log(e);
+    return undefined;
+  }
+}
+
+export async function setMobileNumber(
+  mobileNumber: string,
+  encryptionSecret: string
+) {
+  const store = new Store(APP_STORE, encryptionSecret)
+  await store.init()
+  await store.set(MOBILE_NUMBER_KEY, mobileNumber);
+}
+
+export async function getMobileNumber(
+  encryptionSecret: string
+) {
+  const store = new Store(APP_STORE, encryptionSecret);
+  await store.init();
+  try {
+    const mobileNumber = await store.get(MOBILE_NUMBER_KEY);
+    return mobileNumber;
+  } catch(e) {
     return undefined;
   }
 }
@@ -44,6 +68,7 @@ export async function unlockWallet(
     const store = new Store(APP_STORE, encryptionSecret);
     await store.init();
     const data: WalletData = await store.get(WALLET_KEY);
+    console.log('Wallet data during unlock', data);
     if (data.seed && data.aliases) {
       return walletDataToWallet(data, encryptionSecret);
     } else {

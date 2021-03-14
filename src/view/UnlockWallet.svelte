@@ -7,7 +7,7 @@
         pushToast
     } from "../machinery/eventListener";
     import type {NanoWallet} from "../machinery/models";
-    import {unlockWallet} from "../machinery/secure-storage";
+    import {getMobileNumber, unlockWallet} from "../machinery/secure-storage";
     import {onMount} from "svelte";
     import {setWalletState} from "../machinery/WalletState";
     import {load} from "../machinery/loader-store";
@@ -21,6 +21,8 @@
             languageId: 'unlocking-wallet',
             load: async () => {
                 const data: NanoWallet | undefined = await unlockWallet(inputPhrase)
+                const mobileNumber = await getMobileNumber(inputPhrase)
+                console.log('Retrieved mobile number', mobileNumber)
                 if (data) {
                     pushState({menu: 'accounts', accountAction: undefined, onboardState: undefined})
                     setWalletState({wallet: data, account: undefined})
