@@ -5,11 +5,17 @@
         navigationReload,
     } from "../machinery/eventListener";
     import NumberInput from "../components/input/NumberInput.svelte";
+import { verifyMobileNumber } from "../machinery/mobile-number-setup";
 
     let inputMobileNumber: string | undefined;
 
     async function sendOtp() {
-        console.log('Got number', inputMobileNumber)
+        console.log('Got number', inputMobileNumber);
+        try {
+            await verifyMobileNumber(inputMobileNumber);
+        } catch(e) {
+
+        }
     }
 
     onMount(() => {
