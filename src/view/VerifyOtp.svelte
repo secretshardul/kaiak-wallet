@@ -3,24 +3,18 @@
     import { onMount } from "svelte";
     import Content from "../components/Content.svelte";
     import {
-        navigationReload, pushAccountAction,
+        navigationReload,
     } from "../machinery/eventListener";
     import NumberInput from "../components/input/NumberInput.svelte";
     import { verifyMobileNumber } from "../machinery/mobile-number-setup";
     import { setSoftwareKeys } from '../machinery/SoftwareKeysState';
-    import type { WalletState } from '../machinery/WalletState';
-    import { setWalletState } from '../machinery/WalletState';
-
-    export let walletState: WalletState;
 
     let inputMobileNumber: string | undefined;
 
-    async function sendOtp() {
+    async function verifyOtp() {
+        console.log('Got number', inputMobileNumber);
         try {
-            const verifyResponse = await verifyMobileNumber(inputMobileNumber);
-            if (verifyResponse) {
-                setWalletState({ ...walletState, mobileNumberToVerify: inputMobileNumber });
-            }
+            await verifyMobileNumber(inputMobileNumber);
         } catch(e) {
 
         }
@@ -29,8 +23,8 @@
     const softwareKeys = (disabledOtp: boolean) => {
         return {
                 middleKey: {
-                    languageId: 'send-otp',
-                    onClick: sendOtp,
+                    languageId: 'verify-otp',
+                    onClick: verifyOtp,
                     disabled: disabledOtp,
                 },
             }
@@ -43,6 +37,6 @@
     onMount(() => navigationReload(softwareKeys(true)))
 </script>
 
-<Content titleKey="set-mobile-number-text">
-    <NumberInput languageId="mobile-number-label" placeholderLanguage="mobile-number-label" bind:value={inputMobileNumber}/>
+<Content titleKey="verify-otp-text">
+    <NumberInput languageId="otp-label" placeholderLanguage="otp-label" bind:value={inputMobileNumber}/>
 </Content>

@@ -16,6 +16,7 @@ export interface WalletState {
   transaction?: NanoTransaction;
   sendToAddress?: NanoAddress;
   mobileNumber?: string;
+  mobileNumberToVerify?: string;
 }
 
 export function setWalletState(walletState: WalletState) {
@@ -50,5 +51,6 @@ export async function updateWalletState(
 export const walletStore: Writable<WalletState> = writable({
   wallet: undefined,
   transactions: undefined,
-  mobileNumber: undefined
+  mobileNumber: undefined,
+  mobileNumberToVerify: undefined,
 });
