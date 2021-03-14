@@ -18,6 +18,7 @@
 	import Account from "./view/wallet/Account.svelte";
 	import {setWalletState, walletStore} from "./machinery/WalletState";
 	import Splash from "./view/Splash.svelte";
+import SetMobileNumber from "./view/SetMobileNumber.svelte";
 
 	export let version: () => string
 	let header: string | undefined = undefined
@@ -80,7 +81,7 @@
 			{:else if state.menu === 'unlock'}
 				<UnlockWallet />
 			{:else if walletState?.mobileNumber === undefined}
-				<p>OTP verification</p>
+				<SetMobileNumber />
 			{:else if state.menu === 'accounts' && walletState?.wallet}
 				<AccountList wallet={walletState.wallet} />
 			{:else if state.menu === 'account' && walletState?.wallet && walletState?.account}
