@@ -24,7 +24,8 @@ let stack = new NavigationStack();
 /** Asking for permissions blurs / focuses screen, we need to ignore on those events */
 export function ignoreOnCameraBlur(): boolean {
   let current = stack.peek();
-  return current?.menu === 'account' && current?.accountAction === 'send_qr';
+  return current !== undefined // any screen other than splash screen
+  // return current?.menu === 'account' && current?.accountAction === 'send_qr';
 }
 
 export const loadStartScreen = async () => {

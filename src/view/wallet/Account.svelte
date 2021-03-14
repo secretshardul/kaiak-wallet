@@ -103,6 +103,7 @@
         <Seperator primaryText={accountTitle(selectedAccount)}/>
         <List>
             <Primary primaryLanguageId="transactions" on:click={showTransactions}/>
+            <Primary primaryLanguageId="link-mobile-number" on:click={() => console.log('Linking mobile') }/>
             <Primary primaryLanguageId="send" on:click={() => pushAccountAction('send') }/>
             <Primary primaryLanguageId="receive" on:click={() => pushAccountAction('receive') }/>
             <Primary primaryLanguageId="settings" on:click={() => showSettings() }/>
