@@ -25,7 +25,7 @@
                 console.log('Retrieved mobile number', mobileNumber)
                 if (data) {
                     pushState({menu: 'accounts', accountAction: undefined, onboardState: undefined})
-                    setWalletState({wallet: data, account: undefined})
+                    setWalletState({wallet: data, account: undefined, mobileNumber})
                 } else {
                     pushToast({languageId: 'wrong-pin'})
                 }

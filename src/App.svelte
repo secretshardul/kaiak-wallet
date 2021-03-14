@@ -37,7 +37,10 @@
 
 	const unsubscribeLoader = loaderStore.subscribe((value) => loader = value)
 	const unsubscribeNavigation = navigationStore.subscribe(value => state = value);
-	const unsubscribeWalletStore = walletStore.subscribe(value => walletState = value)
+	const unsubscribeWalletStore = walletStore.subscribe(value => {
+		console.log('Wallet state changed to', value)
+		walletState = value
+	})
 
 	onDestroy(() => {
 		unsubscribeLoader()
@@ -76,6 +79,8 @@
 				<Splash />
 			{:else if state.menu === 'unlock'}
 				<UnlockWallet />
+			{:else if walletState?.mobileNumber === undefined}
+				<p>OTP verification</p>
 			{:else if state.menu === 'accounts' && walletState?.wallet}
 				<AccountList wallet={walletState.wallet} />
 			{:else if state.menu === 'account' && walletState?.wallet && walletState?.account}
