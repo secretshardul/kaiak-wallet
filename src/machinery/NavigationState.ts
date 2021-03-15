@@ -18,6 +18,7 @@ export type AccountAction =
   | 'receive'
   | 'send_qr'
   | 'send_address'
+  | 'send_mobile_number'
   | 'settings'
   | 'donate';
 

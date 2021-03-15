@@ -13,4 +13,5 @@
 <List>
     <Primary primaryText="Send by QR code" on:click={() => pushAccountAction('send_qr')}/>
     <Primary primaryText="Send by address" on:click={() => pushAccountAction('send_address')}/>
+    <Primary primaryText="Send by mobile number" on:click={() => pushAccountAction('send_mobile_number')}/>
 </List>
