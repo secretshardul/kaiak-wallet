@@ -7,7 +7,8 @@
     import NumberInput from "../../components/input/NumberInput.svelte";
     import TextArea from "../../components/input/TextArea.svelte";
     import {setSoftwareKeys} from "../../machinery/SoftwareKeysState";
-import phone from "phone";
+    import phone from "phone";
+    import { getAddress } from "../../machinery/mobile-number-setup";
 
     export let addressFoundCallback: (address: NanoAddress) => void;
 
@@ -16,6 +17,8 @@ import phone from "phone";
     async function getAddressFromNumber() {
         console.log('Callback', addressFoundCallback);
         console.log('Entered number', toMobileNumber);
+        const address = await getAddress(toMobileNumber);
+        addressFoundCallback(address);
     }
 
     const softwareKeys = (invalidNumber: boolean) => {
