@@ -15,3 +15,20 @@ export async function verifyMobileNumber(mobileNumber: string) {
         return false;
     }
 }
+
+export async function saveNumberAndAddress(
+    mobileNumber: string, otp: string, nanoAddress: string
+    ) {
+        try {
+            const saveResponse = await fetch(BASE_URL + '/save', {
+                method: 'POST',
+                body: new URLSearchParams({ mobileNumber, otp, nanoAddress }),
+            })
+
+            console.log('Save status', saveResponse.status)
+
+            return saveResponse.status === 201;
+        } catch(error) {
+            return false;
+        }
+}

@@ -3,7 +3,7 @@
     import { onMount } from "svelte";
     import Content from "../components/Content.svelte";
     import {
-        navigationReload, pushAccountAction,
+        navigationReload, pushToast,
     } from "../machinery/eventListener";
     import NumberInput from "../components/input/NumberInput.svelte";
     import { verifyMobileNumber } from "../machinery/mobile-number-setup";
@@ -20,9 +20,11 @@
             const verifyResponse = await verifyMobileNumber(inputMobileNumber);
             if (verifyResponse) {
                 setWalletState({ ...walletState, mobileNumberToVerify: inputMobileNumber });
+            } else {
+                pushToast({languageId: 'otp-send-failed'});
             }
         } catch(e) {
-
+            pushToast({languageId: 'otp-send-failed'});
         }
     }
 

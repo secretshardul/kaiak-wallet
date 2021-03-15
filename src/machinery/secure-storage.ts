@@ -5,6 +5,7 @@ import { WalletData, walletDataToWallet } from './wallet';
 const APP_STORE = 'kaios_nano';
 const WALLET_KEY = 'wallet';
 const MOBILE_NUMBER_KEY = 'mobile_number';
+let securePhase: string;
 
 function walletToWalletData(wallet: NanoWallet): WalletData {
   return {
@@ -30,9 +31,10 @@ export async function setWallet(
 
 export async function setMobileNumber(
   mobileNumber: string,
-  encryptionSecret: string
+  // encryptionSecret: string
 ) {
-  const store = new Store(APP_STORE, encryptionSecret)
+  console.log('Secure phase when setting number', securePhase);
+  const store = new Store(APP_STORE, securePhase);
   await store.init()
   await store.set(MOBILE_NUMBER_KEY, mobileNumber);
 }
@@ -44,6 +46,7 @@ export async function getMobileNumber(
   await store.init();
   try {
     const mobileNumber = await store.get(MOBILE_NUMBER_KEY);
+    securePhase = encryptionSecret;
     return mobileNumber;
   } catch(e) {
     return undefined;

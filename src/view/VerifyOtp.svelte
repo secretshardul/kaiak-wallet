@@ -1,42 +1,55 @@
 <script lang="ts">
-    import phone from 'phone';
     import { onMount } from "svelte";
     import Content from "../components/Content.svelte";
     import {
-        navigationReload,
+        navigationReload, pushToast,
     } from "../machinery/eventListener";
+    import type { WalletState } from '../machinery/WalletState';
+    import { setWalletState } from "../machinery/WalletState";
+    import { setMobileNumber } from "../machinery/secure-storage";
     import NumberInput from "../components/input/NumberInput.svelte";
-    import { verifyMobileNumber } from "../machinery/mobile-number-setup";
-    import { setSoftwareKeys } from '../machinery/SoftwareKeysState';
+    import { saveNumberAndAddress } from "../machinery/mobile-number-setup";
 
-    let inputMobileNumber: string | undefined;
+    export let walletState: WalletState;
+    const {alias, publicKey} = walletState.wallet.accounts[0];
+
+    let otp: string | undefined;
 
     async function verifyOtp() {
-        console.log('Got number', inputMobileNumber);
         try {
-            await verifyMobileNumber(inputMobileNumber);
+            // verify OTP
+            const saveNumberResp = await saveNumberAndAddress(walletState.mobileNumberToVerify!, otp, publicKey);
+            if(saveNumberResp) {
+                // Save mobile number to secure store
+                await setMobileNumber(walletState.mobileNumberToVerify);
+                //  Update wallet state
+                setWalletState({
+                     ...walletState,
+                     mobileNumber: walletState.mobileNumberToVerify,
+                     mobileNumberToVerify: undefined,
+                })
+            } else {
+                pushToast({languageId: 'otp-verification-failed'})
+            }
         } catch(e) {
-
+            pushToast({languageId: 'otp-verification-failed'});
         }
     }
 
-    const softwareKeys = (disabledOtp: boolean) => {
+    const softwareKeys = () => {
         return {
                 middleKey: {
                     languageId: 'verify-otp',
                     onClick: verifyOtp,
-                    disabled: disabledOtp,
                 },
             }
     }
-    $: {
-        const valid = phone(inputMobileNumber)[0] !== undefined;
-        setSoftwareKeys(softwareKeys(!valid));
-    }
 
-    onMount(() => navigationReload(softwareKeys(true)))
+    onMount(() => navigationReload(softwareKeys()))
 </script>
 
-<Content titleKey="verify-otp-text">
-    <NumberInput languageId="otp-label" placeholderLanguage="otp-label" bind:value={inputMobileNumber}/>
+<Content titleKey="verify-otp-text" title="Number will be linked">
+    <NumberInput languageId="otp-label" placeholderLanguage="otp-label" bind:value={otp}/>
+    <br />
+    <p> Account {alias}({publicKey}) will be linked with {walletState.mobileNumberToVerify}</p>
 </Content>
