@@ -11,14 +11,14 @@
     import { saveNumberAndAddress } from "../machinery/mobile-number-setup";
 
     export let walletState: WalletState;
-    const {alias, publicKey} = walletState.wallet.accounts[0];
+    const {alias, address} = walletState.wallet.accounts[0];
 
     let otp: string | undefined;
 
     async function verifyOtp() {
         try {
             // verify OTP
-            const saveNumberResp = await saveNumberAndAddress(walletState.mobileNumberToVerify!, otp, publicKey);
+            const saveNumberResp = await saveNumberAndAddress(walletState.mobileNumberToVerify!, otp, address);
             if(saveNumberResp) {
                 // Save mobile number to secure store
                 await setMobileNumber(walletState.mobileNumberToVerify);
@@ -51,5 +51,5 @@
 <Content titleKey="verify-otp-text" title="Number will be linked">
     <NumberInput languageId="otp-label" placeholderLanguage="otp-label" bind:value={otp}/>
     <br />
-    <p> Account {alias}({publicKey}) will be linked with {walletState.mobileNumberToVerify}</p>
+    <p> Account {alias}({address}) will be linked with {walletState.mobileNumberToVerify}</p>
 </Content>
