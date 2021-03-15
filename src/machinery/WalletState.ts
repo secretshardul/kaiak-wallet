@@ -26,7 +26,8 @@ export function setWalletState(walletState: WalletState) {
 export async function updateWalletState(
   nanoAccount: NanoAccount,
   wallet: NanoWallet,
-  sendToAddress?: NanoAddress
+  sendToAddress?: NanoAddress,
+  mobileNumber?: string
 ): Promise<void> {
   const {
     account: updatedAccount,
@@ -44,6 +45,7 @@ export async function updateWalletState(
     account: updatedAccount,
     transactions: resolvedTransactions,
     sendToAddress: sendToAddress,
+    mobileNumber,
   });
 }
 

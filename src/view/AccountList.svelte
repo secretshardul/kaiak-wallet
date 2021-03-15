@@ -3,6 +3,7 @@
     import Content from "../components/Content.svelte";
     import type {NanoAccount, NanoWallet} from "../machinery/models";
     import WithSecondary from "../components/list/WithSecondary.svelte";
+    import type {WalletState} from "../machinery/WalletState";
     import {setWalletState, updateWalletState} from "../machinery/WalletState";
     import {navigationReload, pushAccountAction, pushMenu, pushToast} from "../machinery/eventListener";
     import {afterUpdate} from "svelte";
@@ -11,13 +12,15 @@
     import {truncateNanoAddress, accountAliasOrFallback} from "../machinery/text-utils";
     import {SOFT_KEY_SELECT} from "../machinery/SoftwareKeysState";
 
-    export let wallet: NanoWallet
+    export let walletState: WalletState;
+    const { wallet, mobileNumber } = walletState;
+
     const selectAccount = async (account: NanoAccount) => {
         await load({
             languageId: 'loading-account',
             load: async () => {
-                await updateWalletState(account, wallet)
-                pushAccountAction('menu')
+                await updateWalletState(account, wallet, undefined, mobileNumber);
+                pushAccountAction('menu');
             },
         })
     }
@@ -29,7 +32,7 @@
                 load: async () => {
                     const updatedNanoWallet: NanoWallet | undefined = await addNanoAccount(wallet)
                     if (updatedNanoWallet) {
-                        setWalletState({ wallet: updatedNanoWallet })
+                        setWalletState({ wallet: updatedNanoWallet, mobileNumber })
                     } else {
                         pushToast({languageId: 'unable-to-store'})
                     }

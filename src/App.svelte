@@ -86,7 +86,7 @@ import VerifyOtp from "./view/VerifyOtp.svelte";
 			{:else if walletState?.mobileNumber === undefined}
 				<SetMobileNumber walletState={walletState}/>
 			{:else if state.menu === 'accounts' && walletState?.wallet}
-				<AccountList wallet={walletState.wallet} />
+				<AccountList walletState={walletState} />
 			{:else if state.menu === 'account' && walletState?.wallet && walletState?.account}
 				<Account walletState={walletState} action={state.accountAction} fullscreen={fullscreen}/>
 			{:else if state.menu === 'onboard'}
