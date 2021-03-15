@@ -98,7 +98,7 @@
             const code: QRCode | null = jsQR(imageData.data, imageData.width, imageData.height);
             if (code && tools.validateAddress(code.data)) {
                 stopRecording();
-                scannedAddress(code.data)
+                scannedAddress(code.data);
                 pushToast({languageId: 'address-scanned', type: 'success'})
             } else {
                 pushToast({languageId: 'unable-to-scan'})

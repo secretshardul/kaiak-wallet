@@ -121,7 +121,7 @@
     {:else if action === 'send_address'}
         <SendByAddress walletState={walletState} />
     {:else if action === 'send_mobile_number'}
-        <SendMobileNumber walletState={walletState} />
+        <SendMobileNumber addressFoundCallback={sendToAccount} />
     {:else if action === 'receive'}
         <Receive account={selectedAccount} />
     {:else if action === 'settings'}
