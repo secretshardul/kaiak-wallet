@@ -21,7 +21,6 @@ export async function setWallet(
     const store: Store = new Store(APP_STORE, wallet.encryptionSecret);
     await store.init();
     await store.set(WALLET_KEY, walletToWalletData(wallet));
-    console.log('Read wallet data', wallet);
     return wallet;
   } catch (e) {
     console.log(e);
@@ -31,9 +30,7 @@ export async function setWallet(
 
 export async function setMobileNumber(
   mobileNumber: string,
-  // encryptionSecret: string
 ) {
-  console.log('Secure phase when setting number', securePhase);
   const store = new Store(APP_STORE, securePhase);
   await store.init()
   await store.set(MOBILE_NUMBER_KEY, mobileNumber);
@@ -71,7 +68,6 @@ export async function unlockWallet(
     const store = new Store(APP_STORE, encryptionSecret);
     await store.init();
     const data: WalletData = await store.get(WALLET_KEY);
-    console.log('Wallet data during unlock', data);
     if (data.seed && data.aliases) {
       return walletDataToWallet(data, encryptionSecret);
     } else {

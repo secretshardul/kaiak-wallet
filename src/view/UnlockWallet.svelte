@@ -22,7 +22,6 @@
             load: async () => {
                 const data: NanoWallet | undefined = await unlockWallet(inputPhrase)
                 const mobileNumber = await getMobileNumber(inputPhrase)
-                console.log('Retrieved mobile number', mobileNumber)
                 if (data) {
                     pushState({menu: 'accounts', accountAction: undefined, onboardState: undefined})
                     setWalletState({wallet: data, account: undefined, mobileNumber})

@@ -39,10 +39,7 @@ import VerifyOtp from "./view/VerifyOtp.svelte";
 
 	const unsubscribeLoader = loaderStore.subscribe((value) => loader = value)
 	const unsubscribeNavigation = navigationStore.subscribe(value => state = value);
-	const unsubscribeWalletStore = walletStore.subscribe(value => {
-		console.log('Wallet state changed to', value)
-		walletState = value
-	})
+	const unsubscribeWalletStore = walletStore.subscribe(value => walletState = value);
 
 	onDestroy(() => {
 		unsubscribeLoader()
