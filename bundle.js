@@ -1,6 +1,4 @@
-// Version: 1.0.1 - March 15, 2021 23:20:42
-
-(function(l, r) { if (l.getElementById('livereloadscript')) return; r = l.createElement('script'); r.async = 1; r.src = '//' + (window.location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1'; r.id = 'livereloadscript'; l.getElementsByTagName('head')[0].appendChild(r) })(window.document);
+// Version: 1.0.1 - March 16, 2021 13:19:13
 (function () {
 	'use strict';
 
@@ -44225,39 +44223,42 @@
 	        while (1) {
 	          switch (_context.prev = _context.next) {
 	            case 0:
-	              console.log("Callback", addressFoundCallback);
-	              console.log("Entered number", toMobileNumber);
-	              _context.prev = 2;
-	              _context.next = 5;
+	              _context.prev = 0;
+	              _context.next = 3;
 	              return getAddress(toMobileNumber);
 
-	            case 5:
+	            case 3:
 	              address = _context.sent;
 	              console.log("Address", address);
 
-	              if (address != null) ; else {
+	              if (address != null) {
+	                addressFoundCallback(address);
 	                pushToast({
-	                  languageId: "get-address-fail" // addressFoundCallback(address);
-
+	                  languageId: "got-address-from-number",
+	                  type: "success"
+	                });
+	              } else {
+	                pushToast({
+	                  languageId: "get-address-fail"
 	                });
 	              }
 
-	              _context.next = 13;
+	              _context.next = 11;
 	              break;
 
-	            case 10:
-	              _context.prev = 10;
-	              _context.t0 = _context["catch"](2);
+	            case 8:
+	              _context.prev = 8;
+	              _context.t0 = _context["catch"](0);
 	              pushToast({
 	                languageId: "get-address-fail"
 	              });
 
-	            case 13:
+	            case 11:
 	            case "end":
 	              return _context.stop();
 	          }
 	        }
-	      }, _callee, null, [[2, 10]]);
+	      }, _callee, null, [[0, 8]]);
 	    }));
 	  }
 
@@ -44291,17 +44292,12 @@
 	  $$self.$capture_state = function () {
 	    return {
 	      __awaiter: __awaiter,
-	      navigationReload: navigationReload,
-	      pushAccountAction: pushAccountAction,
-	      pushToast: pushToast,
-	      load: load,
-	      onMount: onMount,
-	      setWalletState: setWalletState,
-	      updateWalletState: updateWalletState,
-	      NumberInput: NumberInput,
-	      TextArea: TextArea,
-	      setSoftwareKeys: setSoftwareKeys,
 	      phone: phone,
+	      navigationReload: navigationReload,
+	      pushToast: pushToast,
+	      onMount: onMount,
+	      NumberInput: NumberInput,
+	      setSoftwareKeys: setSoftwareKeys,
 	      getAddress: getAddress,
 	      addressFoundCallback: addressFoundCallback,
 	      toMobileNumber: toMobileNumber,
