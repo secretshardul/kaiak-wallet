@@ -55,5 +55,5 @@ export async function getAddress(mobileNumber: string) {
     })
     const body = await resp.json();
     const result = String.fromCharCode(...body.result.result);
-    return result;
+    return result.slice(1, -1);
 }

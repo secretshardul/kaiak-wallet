@@ -1,13 +1,10 @@
 <script lang="ts">
-    import type {NanoAddress} from "../../machinery/models";
-    import {navigationReload, pushAccountAction, pushToast} from "../../machinery/eventListener";
-    import {load} from "../../machinery/loader-store";
-    import {onMount} from "svelte";
-    import {setWalletState, updateWalletState} from "../../machinery/WalletState";
-    import NumberInput from "../../components/input/NumberInput.svelte";
-    import TextArea from "../../components/input/TextArea.svelte";
-    import {setSoftwareKeys} from "../../machinery/SoftwareKeysState";
     import phone from "phone";
+    import type {NanoAddress} from "../../machinery/models";
+    import {navigationReload, pushToast} from "../../machinery/eventListener";
+    import {onMount} from "svelte";
+    import NumberInput from "../../components/input/NumberInput.svelte";
+    import {setSoftwareKeys} from "../../machinery/SoftwareKeysState";
     import { getAddress } from "../../machinery/mobile-number-setup";
 
     export let addressFoundCallback: (address: NanoAddress) => void;
@@ -15,10 +12,19 @@
     let toMobileNumber: string = ''
 
     async function getAddressFromNumber() {
-        console.log('Callback', addressFoundCallback);
-        console.log('Entered number', toMobileNumber);
-        const address = await getAddress(toMobileNumber);
-        addressFoundCallback(address);
+        try {
+            const address = await getAddress(toMobileNumber);
+            console.log('Address', address);
+            if(address != null) {
+                addressFoundCallback(address);
+                pushToast({languageId: 'got-address-from-number', type: 'success'});
+            } else {
+                pushToast({languageId: 'get-address-fail'});
+            }
+        } catch(error) {
+            pushToast({languageId: 'get-address-fail'})
+        }
+
     }
 
     const softwareKeys = (invalidNumber: boolean) => {
