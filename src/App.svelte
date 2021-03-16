@@ -81,9 +81,9 @@ import VerifyOtp from "./view/VerifyOtp.svelte";
 				<Splash />
 			{:else if state.menu === 'unlock'}
 				<UnlockWallet />
-			{:else if walletState?.mobileNumberToVerify}
+			{:else if state.menu === 'accounts' && walletState?.mobileNumberToVerify}
 				<VerifyOtp walletState={walletState} />
-			{:else if walletState?.mobileNumber === undefined}
+			{:else if state.menu === 'accounts' && walletState?.mobileNumber === undefined}
 				<SetMobileNumber walletState={walletState}/>
 			{:else if state.menu === 'accounts' && walletState?.wallet}
 				<AccountList walletState={walletState} />
